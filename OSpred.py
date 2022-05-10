@@ -26,7 +26,7 @@ class ob_name:
 			=============================\n \
 			|| Example of the command: ||\n \
 			=============================\n \
-			python OSI.py --i R2_expression.csv --o osi_prediction.csv --t 32'
+			python OSpred.py --i R2_expression.csv --o osi_prediction.csv --t 32'
 			,formatter_class=argparse.RawTextHelpFormatter)
 
 		parser.add_argument(	'--i' ,type=str,
@@ -70,21 +70,31 @@ class ob_name:
 
 
 	def main(self):
-
+		OSpred_path = sys.path[0]
 		params = {
+			#general setting
 			'booster': 'gbtree',
-			'objective': 'binary:logistic',
-			'verbosity':0,
-			'nthread': 32,
-			'eta':0.01,
 			'n_estimators':1000,
+			'verbosity':1,
+			#'gpu_id': 0,
+			#'tree_method':'gpu_hist',
+			#learning step
+			'eta':0.01,
+			#task parameters
+			'objective': 'binary:logistic',
+			'gamma':0,
+			'colsample_bytree':0.6,
+			'max_depth':7,
+			'min_child_weight':2,
+			'reg_alpha':0.05,
+			'reg_lambda':0.05,
+			'subsample':0.6
 		}
-
 		#===========================================================================
 		#  Read training data
 		#===========================================================================
-		training_df = pd.read_csv('docs/train_matrix.csv',index_col=0)
-		label = pd.read_csv('docs/train_label.csv')
+		training_df = pd.read_csv(OSpred_path+'/docs/train_matrix.csv',index_col=0)
+		label = pd.read_csv(OSpred_path+'/docs/train_label.csv')
 
 		#vali_data = pd.read_csv('/home/shepherd/Project_I/training/R2_data/R2_expression.csv')
 		#vali_label = pd.read_csv('/home/shepherd/Project_I/training/R2_data/R2_training_label.csv')
@@ -93,7 +103,7 @@ class ob_name:
 		#===========================================================================
 		#  data processing
 		#===========================================================================
-		DEG_feature =  pd.read_csv('docs/features.csv')
+		DEG_feature =  pd.read_csv(OSpred_path+'/docs/features.csv')
 		featuresss = list(DEG_feature["gene"])
 		testing = pd.read_csv(self.args.i)
 		testing_matrix = self.pre_processing(testing,"ft", featuresss)
