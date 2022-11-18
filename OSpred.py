@@ -26,14 +26,14 @@ class ob_name:
 			=============================\n \
 			|| Example of the command: ||\n \
 			=============================\n \
-			python OSpred.py --i R2_expression.csv --o osi_prediction.csv --t 32'
+			python OSpred.py --i expression.csv --o output.csv --t 8 --m prob'
 			,formatter_class=argparse.RawTextHelpFormatter)
 
 		parser.add_argument(	'--i' ,type=str,
 					help='please input the expresion matrix (LogNormalized, scale factor=10000) in csv format.')
 
 		parser.add_argument(	'--m' ,type=str,
-					default='binary',
+					default='prob',
 					help='output probability or binary class. \n \
 					\n \
 	- binary\n \
@@ -41,8 +41,8 @@ class ob_name:
 					')
 
 		parser.add_argument(	'--o' ,type=str,
-					default='osi_prediction.csv',
-					help='prefix for the prediction output. (default: osi_prediction.csv)')
+					default='output.csv',
+					help='prefix for the prediction output. (default: output.csv)')
 
 		parser.add_argument(	'--t' ,type=int,
 					default=8,
@@ -96,10 +96,6 @@ class ob_name:
 		training_df = pd.read_csv(OSpred_path+'/docs/train_matrix.csv',index_col=0)
 		label = pd.read_csv(OSpred_path+'/docs/train_label.csv')
 
-		#vali_data = pd.read_csv('/home/shepherd/Project_I/training/R2_data/R2_expression.csv')
-		#vali_label = pd.read_csv('/home/shepherd/Project_I/training/R2_data/R2_training_label.csv')
-		#vali_data = pd.read_csv('/home/shepherd/Project_I/val_/EAE_natneu/EAE3_natneu_expression.csv')
-
 		#===========================================================================
 		#  data processing
 		#===========================================================================
@@ -107,7 +103,6 @@ class ob_name:
 		featuresss = list(DEG_feature["gene"])
 		testing = pd.read_csv(self.args.i)
 		testing_matrix = self.pre_processing(testing,"ft", featuresss)
-		#vali_label_p = label_process(vali_label)
 
 		#===========================================================================
 		#  Prediction
