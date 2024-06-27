@@ -1,5 +1,5 @@
-# OSpred
-OSpred is an XGboost-based model that annotates the intracellular oxidative stress state of cells using transcriptome profiling.
+# OxSpred
+OxSpred is an XGboost-based model that annotates the intracellular oxidative stress state of cells using transcriptome profiling.
 
 ## Installation
 
@@ -12,21 +12,21 @@ The script was developed under `Ubuntu 20.04.3 LTS`.
 - Numpy
 - Scikit-learn
 
-### Install OSpred
+### Install OxSpred
 
 ```bash
-git clone https://github.com/PeterPYChen/OSpred.git
+git clone https://github.com/PeterPYChen/OxSpred.git
 ```
 
 ### Install the required packages with Anaconda
 
 ```bash
-cd OSpred
-conda env create -f env.yml -n OSpred
-conda activate OSpred
+cd OxSpred
+conda env create -f env.yml -n OxSpred
+conda activate OxSpred
 ```
 
-## Running OSpred
+## Running OxSpred
 
 ### Parameters
 
@@ -51,7 +51,7 @@ conda activate OSpred
 
 ### **Example of usage**
 
-The essential input to OSpred is a normalized expression matrix from a single-cell dataset. The user can acquire the requirement file via various single-cell analysis tools. The demo dataset was generated via Seurat.
+The essential input to OxSpred is a normalized expression matrix from a single-cell dataset. The user can acquire the requirement file via various single-cell analysis tools. The demo dataset was generated via Seurat.
 
 ```r
 library(Seurat)
@@ -67,13 +67,13 @@ assay = GetAssayData(object = seurat_object , assay = "RNA",slot="data")
 write.csv(assay, "expression.csv")
 ```
 
-Execute OSpred with Python.
+Execute OxSpred with Python.
 
 ```bash
-python OSpred.py --i expression.csv --o output.csv --t 8 --m prob
+python OxSpred.py --i expression.csv --o output.csv --t 8 --m prob
 ```
 
-Import the OSpred output file into R and annotate the cellular oxidative levels to the corresponding single cell data object (in this case Seurat object).
+Import the OxSpred output file into R and annotate the cellular oxidative levels to the corresponding single cell data object (in this case Seurat object).
 
 ```r
 pred_ROS <- read.csv("output.csv")
